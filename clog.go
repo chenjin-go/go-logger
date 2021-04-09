@@ -63,6 +63,7 @@ type Clog struct {
 	m     sync.Mutex
 	buf   bytes.Buffer
 	level Level
+	hooks []ihook
 }
 
 func CreateLogger() *Clog {
@@ -90,6 +91,9 @@ func (l *Clog) log(level Level, str string) {
 	l.level = level
 	l.setHeader()
 	l.buf.WriteString(str)
+	for _, v := range l.hooks {
+		v.Call(l)
+	}
 	l.save()
 	l.buf.Reset()
 }
