@@ -91,7 +91,7 @@ func (l *Clog) log(level Level, str string) {
 	l.level = level
 	l.setHeader()
 	l.buf.WriteString(str)
-	for _, v := range l.hooks {
+	for _, v := range l.Hooks {
 		v.Call(l)
 	}
 	l.save()
