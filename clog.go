@@ -63,7 +63,7 @@ type Clog struct {
 	m     sync.Mutex
 	buf   bytes.Buffer
 	level Level
-	hooks []ihook
+	Hooks []ihook
 }
 
 func CreateLogger() *Clog {
