@@ -18,10 +18,6 @@ const (
 	WARN
 )
 
-// const INFO = "INFO"
-// const ERROR = "ERROR"
-// const WARN = "WARN"
-
 var ALLLOG = Config.AllLog
 var INFOPATH = Config.InforLog
 var ERRORPATH = Config.ErrorLog
@@ -95,6 +91,7 @@ func (l *Clog) log(level Level, str string) {
 	l.setHeader()
 	l.buf.WriteString(str)
 	l.save()
+	l.buf.Reset()
 }
 
 func getTime() string {
