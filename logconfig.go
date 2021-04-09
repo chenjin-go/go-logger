@@ -7,7 +7,7 @@ type LogConfig struct {
 	WarnLog  string
 }
 
-var config = &LogConfig{}
+var config = LogConfig{}
 
 func init() {
 
