@@ -22,10 +22,10 @@ const (
 // const ERROR = "ERROR"
 // const WARN = "WARN"
 
-var ALLLOG = config.AllLog
-var INFOPATH = config.InforLog
-var ERRORPATH = config.ErrorLog
-var WARNPATH = config.WarnLog
+var ALLLOG = Config.AllLog
+var INFOPATH = Config.InforLog
+var ERRORPATH = Config.ErrorLog
+var WARNPATH = Config.WarnLog
 
 //创建日志文件
 var ALLFile, _ = os.OpenFile(ALLLOG, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
