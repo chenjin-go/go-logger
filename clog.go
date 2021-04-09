@@ -28,16 +28,12 @@ var ERRORPATH = Config.ErrorLog
 var WARNPATH = Config.WarnLog
 
 //创建日志文件
-var ALLFile, _ = os.OpenFile(ALLLOG, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
-var INFOFile, _ = os.OpenFile(INFOPATH, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
-var ERRORFile, _ = os.OpenFile(ERRORPATH, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
-var WARNFile, _ = os.OpenFile(WARNPATH, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+var ALLFile *os.File
+var INFOFile *os.File
+var ERRORFile *os.File
+var WARNFile *os.File
 
-var fileMap = map[Level]*os.File{
-	INFO:  INFOFile,
-	ERROR: ERRORFile,
-	WARN:  WARNFile,
-}
+var fileMap map[Level]*os.File
 
 var typeMap = map[Level]string{
 	INFO:  "INFO",
@@ -46,6 +42,26 @@ var typeMap = map[Level]string{
 }
 
 type Level uint
+
+func init() {
+	fmt.Println("测试")
+	allfile, _ := os.OpenFile(ALLLOG, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	infofile, _ := os.OpenFile(INFOPATH, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	errorfile, _ := os.OpenFile(ERRORPATH, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	warnfile, _ := os.OpenFile(WARNPATH, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+
+	ALLFile = allfile
+	INFOFile = infofile
+	ERRORFile = errorfile
+	WARNFile = warnfile
+
+	fileMap = map[Level]*os.File{
+		INFO:  INFOFile,
+		ERROR: ERRORFile,
+		WARN:  WARNFile,
+	}
+
+}
 
 type Clog struct {
 	m     sync.Mutex
@@ -79,10 +95,6 @@ func (l *Clog) log(level Level, str string) {
 	l.setHeader()
 	l.buf.WriteString(str)
 	l.save()
-}
-
-func init() {
-	fmt.Println("测试")
 }
 
 func getTime() string {
