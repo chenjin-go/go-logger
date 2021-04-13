@@ -3,7 +3,6 @@ package logger
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"strings"
@@ -26,17 +25,16 @@ var Config = LogConfig{
 func init() {
 	by, readerr := ioutil.ReadFile("conf/logger-conf.json")
 	if readerr != nil {
-		fmt.Println("logger-conf.json not find ,use default config ,err:", readerr)
+		clog.Warn("logger-conf.json not find ,use default config ,err:", readerr)
 	}
 	err := json.Unmarshal(by, &Config)
 	if err != nil {
-		fmt.Println("logger-conf.json content err:", err)
+		clog.Warn("logger-conf.json content err:", err)
 	}
-	fmt.Println(Config)
 	allfile, allerr := createDir(Config.AllLog)
-	infofile, infoerr := createDir(Config.AllLog)
-	errorfile, errorerr := createDir(Config.AllLog)
-	warnfile, warnerr := createDir(Config.AllLog)
+	infofile, infoerr := createDir(Config.InforLog)
+	errorfile, errorerr := createDir(Config.ErrorLog)
+	warnfile, warnerr := createDir(Config.WarnLog)
 
 	if allerr != nil || infoerr != nil || warnerr != nil || errorerr != nil {
 		clog.Error("create log file err :", err)
