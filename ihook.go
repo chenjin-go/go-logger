@@ -1,9 +1,9 @@
 package logger
 
 type ibothook interface {
-	Call(l *Clog)
+	BotCall(l *Clog)
 }
 
 type itophook interface {
-	Call(l *Clog)
+	TopCall(l *Clog)
 }
