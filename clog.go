@@ -62,7 +62,7 @@ func init() {
 type Clog struct {
 	m        sync.Mutex
 	Buf      bytes.Buffer
-	level    Level
+	Level    Level
 	TopHooks []itophook
 	BotHooks []ibothook
 }
@@ -79,7 +79,7 @@ func (l *Clog) setHeader() {
 		line = 0
 	}
 	files := strings.Split(file, "/")
-	header := timestr + " | " + typeMap[l.level] + " | " + files[len(files)-1] + ":" + strconv.Itoa(line) + " | "
+	header := timestr + " | " + typeMap[l.Level] + " | " + files[len(files)-1] + ":" + strconv.Itoa(line) + " | "
 	_, err := l.Buf.WriteString(header)
 	if err != nil {
 		fmt.Println(err)
@@ -89,7 +89,7 @@ func (l *Clog) setHeader() {
 func (l *Clog) log(level Level, str string) {
 	l.m.Lock()
 	defer l.m.Unlock()
-	l.level = level
+	l.Level = level
 	l.setHeader()
 	l.Buf.WriteString(str)
 	for _, v := range l.TopHooks {
@@ -107,22 +107,22 @@ func getTime() string {
 }
 
 func (l *Clog) Info(a ...interface{}) {
-	l.log(INFO, fmt.Sprintln(a))
+	l.log(INFO, fmt.Sprintln(a...))
 }
 
 func (l *Clog) Error(a ...interface{}) {
-	l.log(ERROR, fmt.Sprintln(a))
+	l.log(ERROR, fmt.Sprintln(a...))
 }
 
 func (l *Clog) Warn(a ...interface{}) {
-	l.log(WARN, fmt.Sprintln(a))
+	l.log(WARN, fmt.Sprintln(a...))
 }
 
 func (l *Clog) save() {
 	writers := []io.Writer{
 		os.Stdout,
 		ALLFile,
-		fileMap[l.level]}
+		fileMap[l.Level]}
 	fileAndStdoutWriter := io.MultiWriter(writers...)
 	// 创建新的log对象
 	fileAndStdoutWriter.Write(l.Buf.Bytes())

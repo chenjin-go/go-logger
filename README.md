@@ -1,1 +1,1 @@
-# c-logger
+# go-logger
