@@ -21,9 +21,12 @@ var Config = LogConfig{
 }
 
 func init() {
-	by, err := ioutil.ReadFile("conf/logger-conf.json")
-	if err != nil {
-		fmt.Println("采用默认logger配置")
+	by, readerr := ioutil.ReadFile("conf/logger-conf.json")
+	if readerr != nil {
+		fmt.Println("logger-conf.json未找到,采用默认logger配置,err:", readerr)
 	}
-	json.Unmarshal(by, Config)
+	err := json.Unmarshal(by, Config)
+	if err != nil {
+		fmt.Println("logger-conf.json解析错误,err:", err)
+	}
 }
