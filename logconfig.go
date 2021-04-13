@@ -8,6 +8,7 @@ import (
 	"strings"
 )
 
+// log配置类
 type LogConfig struct {
 	AllLog   string `json:"AllLog"`
 	InforLog string `json:"InforLog"`
@@ -15,6 +16,7 @@ type LogConfig struct {
 	WarnLog  string `json:"WarnLog"`
 }
 
+//默认配置
 var Config = LogConfig{
 	AllLog:   "app.log",
 	InforLog: "app-info.log",
@@ -22,6 +24,7 @@ var Config = LogConfig{
 	WarnLog:  "app-warn.log",
 }
 
+//初始化，创建文件夹，创建log文件
 func init() {
 	by, readerr := ioutil.ReadFile("conf/logger-conf.json")
 	if readerr != nil {
@@ -52,6 +55,7 @@ func init() {
 	}
 }
 
+//创建文件夹方法
 func createDir(dir string) (*os.File, error) {
 	dirs := strings.Split(dir, "/")
 	file := dirs[len(dirs)-1]
