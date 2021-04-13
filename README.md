@@ -16,6 +16,6 @@
 
 1.建立全局参数 var log=CreateLogger()即可使用
 2.目前只支持三级
->>INFO
->>ERROR
->>WARN
+>INFO
+>ERROR
+>WARN
