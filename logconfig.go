@@ -30,10 +30,11 @@ func init() {
 	if err != nil {
 		fmt.Println("logger-conf.json解析错误,err:", err)
 	}
-	allfile, _ := os.OpenFile(ALLLOG, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
-	infofile, _ := os.OpenFile(INFOPATH, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
-	errorfile, _ := os.OpenFile(ERRORPATH, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
-	warnfile, _ := os.OpenFile(WARNPATH, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	fmt.Println(Config)
+	allfile, _ := os.OpenFile(Config.AllLog, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	infofile, _ := os.OpenFile(Config.InforLog, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	errorfile, _ := os.OpenFile(Config.ErrorLog, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	warnfile, _ := os.OpenFile(Config.WarnLog, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
 
 	ALLFile = allfile
 	INFOFile = infofile

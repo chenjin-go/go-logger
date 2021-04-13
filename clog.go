@@ -18,11 +18,6 @@ const (
 	WARN
 )
 
-var ALLLOG = Config.AllLog
-var INFOPATH = Config.InforLog
-var ERRORPATH = Config.ErrorLog
-var WARNPATH = Config.WarnLog
-
 //创建日志文件
 var ALLFile *os.File
 var INFOFile *os.File
@@ -38,10 +33,6 @@ var typeMap = map[Level]string{
 }
 
 type Level uint
-
-func init() {
-	fmt.Println("配置加载结束")
-}
 
 type Clog struct {
 	m        sync.Mutex
