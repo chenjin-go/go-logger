@@ -1,5 +1,5 @@
 package logger
 
-type itophook interface {
+type ibothook interface {
 	Call(l *Clog)
 }

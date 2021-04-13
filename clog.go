@@ -60,10 +60,11 @@ func init() {
 }
 
 type Clog struct {
-	m     sync.Mutex
-	buf   bytes.Buffer
-	level Level
-	Hooks []ihook
+	m        sync.Mutex
+	Buf      bytes.Buffer
+	level    Level
+	TopHooks []itophook
+	BotHooks []ibothook
 }
 
 func CreateLogger() *Clog {
@@ -79,7 +80,7 @@ func (l *Clog) setHeader() {
 	}
 	files := strings.Split(file, "/")
 	header := timestr + " | " + typeMap[l.level] + " | " + files[len(files)-1] + ":" + strconv.Itoa(line) + " | "
-	_, err := l.buf.WriteString(header)
+	_, err := l.Buf.WriteString(header)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -90,12 +91,15 @@ func (l *Clog) log(level Level, str string) {
 	defer l.m.Unlock()
 	l.level = level
 	l.setHeader()
-	l.buf.WriteString(str)
-	for _, v := range l.Hooks {
+	l.Buf.WriteString(str)
+	for _, v := range l.TopHooks {
 		v.Call(l)
 	}
 	l.save()
-	l.buf.Reset()
+	for _, v := range l.BotHooks {
+		v.Call(l)
+	}
+	l.Buf.Reset()
 }
 
 func getTime() string {
@@ -121,5 +125,5 @@ func (l *Clog) save() {
 		fileMap[l.level]}
 	fileAndStdoutWriter := io.MultiWriter(writers...)
 	// 创建新的log对象
-	fileAndStdoutWriter.Write(l.buf.Bytes())
+	fileAndStdoutWriter.Write(l.Buf.Bytes())
 }
