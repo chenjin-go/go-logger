@@ -93,11 +93,11 @@ func (l *Clog) log(level Level, str string) {
 	l.setHeader()
 	l.Buf.WriteString(str)
 	for _, v := range l.TopHooks {
-		v.Call(l)
+		v.TopCall(l)
 	}
 	l.save()
 	for _, v := range l.BotHooks {
-		v.Call(l)
+		v.BotCall(l)
 	}
 	l.Buf.Reset()
 }
