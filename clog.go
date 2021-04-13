@@ -40,7 +40,7 @@ var typeMap = map[Level]string{
 type Level uint
 
 func init() {
-	fmt.Println("测试")
+
 	allfile, _ := os.OpenFile(ALLLOG, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
 	infofile, _ := os.OpenFile(INFOPATH, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
 	errorfile, _ := os.OpenFile(ERRORPATH, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)

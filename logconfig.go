@@ -1,7 +1,5 @@
 package logger
 
-import "fmt"
-
 type LogConfig struct {
 	AllLog   string
 	InforLog string
@@ -14,8 +12,4 @@ var Config = LogConfig{
 	InforLog: "app-info.log",
 	ErrorLog: "app-error.log",
 	WarnLog:  "app-warn.log",
-}
-
-func init() {
-	fmt.Println("测试")
 }
