@@ -7,10 +7,10 @@ import (
 )
 
 type LogConfig struct {
-	AllLog   string
-	InforLog string
-	ErrorLog string
-	WarnLog  string
+	AllLog   string `json:"AllLog"`
+	InforLog string `json:"InforLog"`
+	ErrorLog string `json:"ErrorLog"`
+	WarnLog  string `json:"WarnLog"`
 }
 
 var Config = LogConfig{
