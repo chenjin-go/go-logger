@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"os"
 )
 
 type LogConfig struct {
@@ -28,5 +29,20 @@ func init() {
 	err := json.Unmarshal(by, &Config)
 	if err != nil {
 		fmt.Println("logger-conf.json解析错误,err:", err)
+	}
+	allfile, _ := os.OpenFile(ALLLOG, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	infofile, _ := os.OpenFile(INFOPATH, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	errorfile, _ := os.OpenFile(ERRORPATH, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	warnfile, _ := os.OpenFile(WARNPATH, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+
+	ALLFile = allfile
+	INFOFile = infofile
+	ERRORFile = errorfile
+	WARNFile = warnfile
+
+	fileMap = map[Level]*os.File{
+		INFO:  INFOFile,
+		ERROR: ERRORFile,
+		WARN:  WARNFile,
 	}
 }

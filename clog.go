@@ -40,23 +40,7 @@ var typeMap = map[Level]string{
 type Level uint
 
 func init() {
-
-	allfile, _ := os.OpenFile(ALLLOG, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
-	infofile, _ := os.OpenFile(INFOPATH, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
-	errorfile, _ := os.OpenFile(ERRORPATH, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
-	warnfile, _ := os.OpenFile(WARNPATH, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
-
-	ALLFile = allfile
-	INFOFile = infofile
-	ERRORFile = errorfile
-	WARNFile = warnfile
-
-	fileMap = map[Level]*os.File{
-		INFO:  INFOFile,
-		ERROR: ERRORFile,
-		WARN:  WARNFile,
-	}
-
+	fmt.Println("配置加载结束")
 }
 
 type Clog struct {
