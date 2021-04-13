@@ -42,6 +42,8 @@ type Clog struct {
 	BotHooks []ibothook
 }
 
+var clog = CreateLogger()
+
 func CreateLogger() *Clog {
 	return &Clog{}
 }

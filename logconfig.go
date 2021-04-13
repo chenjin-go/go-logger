@@ -2,9 +2,11 @@ package logger
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strings"
 )
 
 type LogConfig struct {
@@ -24,17 +26,21 @@ var Config = LogConfig{
 func init() {
 	by, readerr := ioutil.ReadFile("conf/logger-conf.json")
 	if readerr != nil {
-		fmt.Println("logger-conf.json未找到,采用默认logger配置,err:", readerr)
+		fmt.Println("logger-conf.json not find ,use default config ,err:", readerr)
 	}
 	err := json.Unmarshal(by, &Config)
 	if err != nil {
-		fmt.Println("logger-conf.json解析错误,err:", err)
+		fmt.Println("logger-conf.json content err:", err)
 	}
 	fmt.Println(Config)
-	allfile, _ := os.OpenFile(Config.AllLog, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
-	infofile, _ := os.OpenFile(Config.InforLog, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
-	errorfile, _ := os.OpenFile(Config.ErrorLog, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
-	warnfile, _ := os.OpenFile(Config.WarnLog, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	allfile, allerr := createDir(Config.AllLog)
+	infofile, infoerr := createDir(Config.AllLog)
+	errorfile, errorerr := createDir(Config.AllLog)
+	warnfile, warnerr := createDir(Config.AllLog)
+
+	if allerr != nil || infoerr != nil || warnerr != nil || errorerr != nil {
+		clog.Error("create log file err :", err)
+	}
 
 	ALLFile = allfile
 	INFOFile = infofile
@@ -46,4 +52,32 @@ func init() {
 		ERROR: ERRORFile,
 		WARN:  WARNFile,
 	}
+}
+
+func createDir(dir string) (*os.File, error) {
+	dirs := strings.Split(dir, "/")
+	file := dirs[len(dirs)-1]
+	dirnew := ""
+	for i, dir := range dirs {
+		if i != len(dirs)-1 {
+			dirnew += dir + "/"
+		}
+	}
+	direrr := os.MkdirAll(dirnew, os.ModePerm)
+	if direrr != nil {
+		clog.Error("create dir err:", direrr)
+		return nil, direrr
+	}
+
+	filetype := strings.Split(file, ".")[1]
+	if filetype != "log" {
+		clog.Error("create file type err:", filetype)
+		return nil, errors.New("file type error")
+	}
+	log, err := os.OpenFile(dir, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	if err != nil {
+		clog.Error("create file err:", err)
+		return nil, err
+	}
+	return log, nil
 }
