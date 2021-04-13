@@ -19,3 +19,11 @@
 > INFO
 > ERROR
 > WARN
+
+
+## 3. Hook（钩子）
+
+1. 分为头部钩子和尾部钩子，分别继承TopHook或者BotHook
+2. 使用方法，实现TopCall()或者BotCall()方法
+3. 内部有Clog对象，其中Buf则是打印日志输入流
+4. 添加钩子，在创建对象后，在init()方法中调用AddTopHook()或者AddBotHook()方法添加钩子
