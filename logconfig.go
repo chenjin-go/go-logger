@@ -28,11 +28,11 @@ var Config = LogConfig{
 func init() {
 	by, readerr := ioutil.ReadFile("conf/logger-conf.json")
 	if readerr != nil {
-		clog.Warn("logger-conf.json not find ,use default config ,err:", readerr)
+		Logger.Warn("logger-conf.json not find ,use default config ,err:", readerr)
 	}
 	err := json.Unmarshal(by, &Config)
 	if err != nil {
-		clog.Warn("logger-conf.json content err:", err)
+		Logger.Warn("logger-conf.json content err:", err)
 	}
 	allfile, allerr := createDir(Config.AllLog)
 	infofile, infoerr := createDir(Config.InforLog)
@@ -40,7 +40,7 @@ func init() {
 	warnfile, warnerr := createDir(Config.WarnLog)
 
 	if allerr != nil || infoerr != nil || warnerr != nil || errorerr != nil {
-		clog.Error("create log file err :", err)
+		Logger.Error("create log file err :", err)
 	}
 
 	ALLFile = allfile
@@ -67,18 +67,18 @@ func createDir(dir string) (*os.File, error) {
 	}
 	direrr := os.MkdirAll(dirnew, os.ModePerm)
 	if direrr != nil {
-		clog.Error("create dir err:", direrr)
+		Logger.Error("create dir err:", direrr)
 		return nil, direrr
 	}
 
 	filetype := strings.Split(file, ".")[1]
 	if filetype != "log" {
-		clog.Error("create file type err:", filetype)
+		Logger.Error("create file type err:", filetype)
 		return nil, errors.New("file type error")
 	}
 	log, err := os.OpenFile(dir, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
 	if err != nil {
-		clog.Error("create file err:", err)
+		Logger.Error("create file err:", err)
 		return nil, err
 	}
 	return log, nil

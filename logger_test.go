@@ -3,5 +3,5 @@ package logger
 import "testing"
 
 func TestLogger(t *testing.T) {
-	clog.Info("123")
+	Logger.Info("123")
 }

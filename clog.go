@@ -42,7 +42,7 @@ type Clog struct {
 	botHooks []ibothook   //尾部钩子
 }
 
-var clog = CreateLogger()
+var Logger = CreateLogger()
 
 func CreateLogger() *Clog {
 	return &Clog{}
