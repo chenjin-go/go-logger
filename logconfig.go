@@ -63,20 +63,12 @@ func configInit() {
 
 //创建文件夹方法
 func createDir(dir string) (*os.File, error) {
-	dirs := strings.Split(dir, "/")
-	file := dirs[len(dirs)-1]
-	dirnew := ""
-	for i, dir := range dirs {
-		if i != len(dirs)-1 {
-			dirnew += dir + "/"
-		}
-	}
-	direrr := os.MkdirAll(dirnew, os.ModePerm)
+	direrr := os.MkdirAll(path.Dir(dir), os.ModePerm)
 	if direrr != nil {
 		Logger.Error("create dir err:", direrr)
 		return nil, direrr
 	}
-	filetype := strings.Split(file, ".")[1]
+	filetype := strings.Split(dir, ".")[1]
 	if filetype != "log" {
 		Logger.Error("create file type err:", filetype)
 		return nil, errors.New("file type error")
